@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Post</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="feed.css" rel="stylesheet">
+    <style>
+        /* Example feed.css for styling */
+        .post-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .post-content {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -41,10 +55,20 @@
                             <div class="form-group">
                                 <label for="category">Select Category</label>
                                 <select class="form-control" id="category">
-                                    <option>General Discussion</option>
-                                    <option>Technology</option>
-                                    <option>Health</option>
-                                    <option>Education</option>
+                                    <option value="general">General Discussion</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="health">Health</option>
+                                    <option value="education">Education</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="subcategory">Select Subcategory</label>
+                                <select class="form-control" id="subcategory">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-subcategory">Select Sub-Subcategory</label>
+                                <select class="form-control" id="sub-subcategory">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -60,33 +84,31 @@
                     </div>
                 </div>
 
-                <!-- Filter and Existing Posts in Category -->
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h3 class="card-title mb-0">Posts in <span id="category-name">General Discussion</span></h3>
                             <select class="form-control w-25" id="filter-category">
                                 <option value="">All Categories</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Health">Health</option>
-                                <option value="Education">Education</option>
+                                <option value="technology">Technology</option>
+                                <option value="health">Health</option>
+                                <option value="education">Education</option>
                             </select>
                         </div>
                         <div id="posts-list">
-                            <!-- Example Post -->
-                            <div class="post-item mb-3 p-3 border rounded" data-category="Technology">
+                            <div class="post-item mb-3 p-3 border rounded" data-category="technology">
                                 <h5 class="post-title">Tech Post Example</h5>
                                 <p class="post-content">This is an example of a technology post content.</p>
                             </div>
-                            <div class="post-item mb-3 p-3 border rounded" data-category="Health">
+                            <div class="post-item mb-3 p-3 border rounded" data-category="health">
                                 <h5 class="post-title">Health Post Example</h5>
                                 <p class="post-content">This is an example of a health post content.</p>
                             </div>
-                            <div class="post-item mb-3 p-3 border rounded" data-category="Education">
+                            <div class="post-item mb-3 p-3 border rounded" data-category="education">
                                 <h5 class="post-title">Education Post Example</h5>
                                 <p class="post-content">This is an example of an education post content.</p>
                             </div>
-                            <div class="post-item mb-3 p-3 border rounded" data-category="Technology">
+                            <div class="post-item mb-3 p-3 border rounded" data-category="technology">
                                 <h5 class="post-title">Another Tech Post Example</h5>
                                 <p class="post-content">This is another example of a technology post content.</p>
                             </div>
@@ -101,53 +123,73 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        const categoryData = {
+            technology: {
+                Programming: ['Web Development', 'Mobile Development', 'Database'],
+                Networking: ['Network Security', 'Wireless Networking', 'Internet of Things'],
+                Hardware: ['Computer Hardware', 'Embedded Systems', 'Peripherals']
+            },
+            health: {
+                Fitness: ['Weight Loss', 'Muscle Building', 'Cardio'],
+                Nutrition: ['Diets', 'Healthy Eating', 'Supplements'],
+                'Mental Health': ['Stress Management', 'Anxiety Relief', 'Mindfulness']
+            },
+            education: {
+                Science: ['Physics', 'Chemistry', 'Biology'],
+                Mathematics: ['Algebra', 'Calculus', 'Statistics'],
+                Languages: ['English', 'Spanish', 'French']
+            }
+        };
+
+        function populateSubcategories(selectedCategory) {
+            var subcategoryDropdown = document.getElementById('subcategory');
+            var subcategories = categoryData[selectedCategory];
+
+            subcategoryDropdown.innerHTML = '';
+            var defaultOption = document.createElement('option');
+            defaultOption.text = 'Select Subcategory';
+            subcategoryDropdown.add(defaultOption);
+
+            Object.keys(subcategories).forEach(function(subcategory) {
+                var option = document.createElement('option');
+                option.text = subcategory;
+                option.value = subcategory; 
+                subcategoryDropdown.add(option);
+            });
+
+            subcategoryDropdown.dispatchEvent(new Event('change'));
+        }
+
+        function populateSubSubcategories(selectedCategory, selectedSubcategory) {
+            var subSubcategoryDropdown = document.getElementById('sub-subcategory');
+            var subSubcategories = categoryData[selectedCategory][selectedSubcategory];
+
+            subSubcategoryDropdown.innerHTML = '';
+            var defaultOption = document.createElement('option');
+            defaultOption.text = 'Select Sub-Subcategory';
+            subSubcategoryDropdown.add(defaultOption);
+
+            subSubcategories.forEach(function(subSubcategory) {
+                var option = document.createElement('option');
+                option.text = subSubcategory;
+                option.value = subSubcategory; 
+                subSubcategoryDropdown.add(option);
+            });
+        }
+
         document.getElementById('category').addEventListener('change', function() {
-            var selectedCategory = this.options[this.selectedIndex].text;
-            document.getElementById('category-name').innerText = selectedCategory;
-
-            // Fetch and display posts for the selected category (mock data for example)
-            var postsList = document.getElementById('posts-list');
-            postsList.innerHTML = ''; // Clear existing posts
-
-            // Mock posts for demonstration
-            var posts = [
-                {title: 'Post 1 in ' + selectedCategory, content: 'Content for post 1.', category: selectedCategory},
-                {title: 'Post 2 in ' + selectedCategory, content: 'Content for post 2.', category: selectedCategory}
-            ];
-
-            posts.forEach(function(post) {
-                var postItem = document.createElement('div');
-                postItem.classList.add('post-item', 'mb-3', 'p-3', 'border', 'rounded');
-                postItem.setAttribute('data-category', post.category);
-
-                var postTitle = document.createElement('h5');
-                postTitle.classList.add('post-title');
-                postTitle.innerText = post.title;
-
-                var postContent = document.createElement('p');
-                postContent.classList.add('post-content');
-                postContent.innerText = post.content;
-
-                postItem.appendChild(postTitle);
-                postItem.appendChild(postContent);
-                postsList.appendChild(postItem);
-            });
+            var selectedCategory = this.value.toLowerCase();
+            populateSubcategories(selectedCategory); 
         });
 
-        document.getElementById('filter-category').addEventListener('change', function() {
-            var selectedFilter = this.value.toLowerCase();
-            var posts = document.querySelectorAll('.post-item');
-
-            posts.forEach(function(post) {
-                var postCategory = post.getAttribute('data-category').toLowerCase();
-
-                if (selectedFilter === '' || postCategory === selectedFilter) {
-                    post.style.display = 'block';
-                } else {
-                    post.style.display = 'none';
-                }
-            });
+        document.getElementById('subcategory').addEventListener('change', function() {
+            var selectedCategory = document.getElementById('category').value.toLowerCase();
+            var selectedSubcategory = this.value.toLowerCase();
+            populateSubSubcategories(selectedCategory, selectedSubcategory); 
         });
+
+        var initialCategory = document.getElementById('category').value.toLowerCase();
+        populateSubcategories(initialCategory);
     </script>
 </body>
 </html>
