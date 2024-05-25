@@ -64,11 +64,13 @@
                             <div class="form-group">
                                 <label for="subcategory">Select Subcategory</label>
                                 <select class="form-control" id="subcategory">
+                                    <!-- Options will be populated dynamically -->
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="sub-subcategory">Select Sub-Subcategory</label>
                                 <select class="form-control" id="sub-subcategory">
+                                    <!-- Options will be populated dynamically -->
                                 </select>
                             </div>
                             <div class="form-group">
@@ -84,6 +86,7 @@
                     </div>
                 </div>
 
+                <!-- Filter and Existing Posts in Category -->
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -96,6 +99,7 @@
                             </select>
                         </div>
                         <div id="posts-list">
+                            <!-- Example Post items -->
                             <div class="post-item mb-3 p-3 border rounded" data-category="technology">
                                 <h5 class="post-title">Tech Post Example</h5>
                                 <p class="post-content">This is an example of a technology post content.</p>
@@ -122,74 +126,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        const categoryData = {
-            technology: {
-                Programming: ['Web Development', 'Mobile Development', 'Database'],
-                Networking: ['Network Security', 'Wireless Networking', 'Internet of Things'],
-                Hardware: ['Computer Hardware', 'Embedded Systems', 'Peripherals']
-            },
-            health: {
-                Fitness: ['Weight Loss', 'Muscle Building', 'Cardio'],
-                Nutrition: ['Diets', 'Healthy Eating', 'Supplements'],
-                'Mental Health': ['Stress Management', 'Anxiety Relief', 'Mindfulness']
-            },
-            education: {
-                Science: ['Physics', 'Chemistry', 'Biology'],
-                Mathematics: ['Algebra', 'Calculus', 'Statistics'],
-                Languages: ['English', 'Spanish', 'French']
-            }
-        };
-
-        function populateSubcategories(selectedCategory) {
-            var subcategoryDropdown = document.getElementById('subcategory');
-            var subcategories = categoryData[selectedCategory];
-
-            subcategoryDropdown.innerHTML = '';
-            var defaultOption = document.createElement('option');
-            defaultOption.text = 'Select Subcategory';
-            subcategoryDropdown.add(defaultOption);
-
-            Object.keys(subcategories).forEach(function(subcategory) {
-                var option = document.createElement('option');
-                option.text = subcategory;
-                option.value = subcategory; 
-                subcategoryDropdown.add(option);
-            });
-
-            subcategoryDropdown.dispatchEvent(new Event('change'));
-        }
-
-        function populateSubSubcategories(selectedCategory, selectedSubcategory) {
-            var subSubcategoryDropdown = document.getElementById('sub-subcategory');
-            var subSubcategories = categoryData[selectedCategory][selectedSubcategory];
-
-            subSubcategoryDropdown.innerHTML = '';
-            var defaultOption = document.createElement('option');
-            defaultOption.text = 'Select Sub-Subcategory';
-            subSubcategoryDropdown.add(defaultOption);
-
-            subSubcategories.forEach(function(subSubcategory) {
-                var option = document.createElement('option');
-                option.text = subSubcategory;
-                option.value = subSubcategory; 
-                subSubcategoryDropdown.add(option);
-            });
-        }
-
-        document.getElementById('category').addEventListener('change', function() {
-            var selectedCategory = this.value.toLowerCase();
-            populateSubcategories(selectedCategory); 
-        });
-
-        document.getElementById('subcategory').addEventListener('change', function() {
-            var selectedCategory = document.getElementById('category').value.toLowerCase();
-            var selectedSubcategory = this.value.toLowerCase();
-            populateSubSubcategories(selectedCategory, selectedSubcategory); 
-        });
-
-        var initialCategory = document.getElementById('category').value.toLowerCase();
-        populateSubcategories(initialCategory);
-    </script>
+    <script src="main.js"></script> <!-- Include your external JavaScript file -->
 </body>
 </html>
