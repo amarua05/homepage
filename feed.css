@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+body {
+    background: #f0f2f5;
+    font-family: Poppins;
+    color: #333;
+}
+.navbar-brand{
+    color: white;
+    font-family: Poppins;
+}
+
+.card {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+}
+
+.post-card-horizontal {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #4e4e4e;
+}
+
+.form-control {
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+}
+
+.btn-primary {
+    border-radius: 20px;
+    background: #1877f2;
+    border: none;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: #145dbf;
+}
+
+.post-item {
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.post-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.post-content {
+    font-size: 1rem;
+    color: #666;
+}
